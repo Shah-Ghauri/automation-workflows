@@ -9,7 +9,8 @@ This repository showcases practical automation workflows I’ve built using n8n,
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/https://www.linkedin.com/in/shah-ghauri-6b9712277/) 
 
 # 💻 Tech Stack:
-![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white) ![n8n](https://img.shields.io/badge/n8n-0E1117?style=for-the-badge&logo=n8n&logoColor=FF6D5A)
+![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white) ![n8n](https://img.shields.io/badge/n8n-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white)
+
 
 # 📊 GitHub Stats:
 ![](https://github-readme-stats.vercel.app/api?username=Shah-Ghauri&theme=dark&hide_border=false&include_all_commits=false&count_private=false)<br/>
