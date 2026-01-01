@@ -1,0 +1,246 @@
+{
+  "name": "Day 6 Project: The Book Store Scraper",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2196397d-0957-49f3-8cd5-4b0cb0da00d7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "http://books.toscrape.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        160,
+        0
+      ],
+      "id": "9c0697c2-cd0f-483b-9963-143dd9df458b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "book_title",
+              "cssSelector": "h3 A",
+              "returnValue": "attribute",
+              "attribute": "title",
+              "returnArray": true
+            },
+            {
+              "key": "book_price",
+              "cssSelector": ".price_color",
+              "returnArray": true
+            },
+            {
+              "key": "stock_status",
+              "cssSelector": ".instock.availability",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": false,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        0
+      ],
+      "id": "927b64ee-701a-4198-b073-a52a427df7ac",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "22e588c3-0e5e-4b72-86c1-0dbd72a20879",
+              "leftValue": "={{ $json.clean_price }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        0
+      ],
+      "id": "59adf544-26af-4ff2-91e7-450eafb1af45",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "book_price, book_title, stock_status",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        480,
+        0
+      ],
+      "id": "08602559-dd2e-4df8-8d97-4f31d4cf7353",
+      "name": "Split Out",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea078f0b-0bd9-4ca5-8b4e-465126eaf968",
+              "name": "clean_price",
+              "value": "={{ parseFloat($json.book_price.replace('£', '')) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "book_price",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        0
+      ],
+      "id": "92253606-f836-49d3-b93b-38fc5f911186",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca81a8f6-8ce2-4e2c-b753-1f0348ad8b27",
+              "name": "bargain",
+              "value": "=BARGAIN FOUND:{{ $json.book_title }}  is only {{ $json.clean_price }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        -16
+      ],
+      "id": "8fc93ebd-775a-426f-b0a2-90623d8b6670",
+      "name": "Edit Fields2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "728093ce-c006-42bf-9bea-cacfc69e7c56",
+  "meta": {
+    "instanceId": "a889c81ce87a3583f25a70080494936a3327cdf572f35621eac59e4fc111f6a9"
+  },
+  "id": "7bah9jNzxO9T0PmN",
+  "tags": []
+}
