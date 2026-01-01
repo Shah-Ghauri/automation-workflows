@@ -11,8 +11,6 @@ This project demonstrates an automated ETL (Extract, Transform, Load) pipeline f
 * **Logic Gates:** Implements conditional logic (`IF` nodes) to filter products based on price thresholds.
 * **Data Aggregation:** Splits array data into individual processable items.
 
-## 🛠️ The Workflow
-![Workflow Screenshot](path/to/your/screenshot.png) *[Upload your screenshot to the repo and link it here]*
 
 ### How It Works
 1.  **Ingestion:** The workflow triggers manually and sends a `GET` request to `books.toscrape.com`.
@@ -37,3 +35,4 @@ This project demonstrates an automated ETL (Extract, Transform, Load) pipeline f
 
 ## 📄 License
 This project is open source and available under the [MIT License](LICENSE).
+
